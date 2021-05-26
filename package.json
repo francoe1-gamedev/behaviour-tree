@@ -1,0 +1,17 @@
+{
+  "name": "com.francorosatto.behaviourtree",
+  "version": "1.0.0",
+  "displayName": "Behaviour Tree",
+  "description": "Arboles de comportamientos para Unity3D",
+  "unity": "2019.1",
+  "keywords": [
+    "behaviour", 
+    "tree"
+  ],
+  "author": {
+    "name": "Franco Rosatto",
+    "email": "francoe12012@gmail.com",
+    "url": "https://unityspain.com/behaviourtree"
+  },
+  "hideInEditor": true
+}
