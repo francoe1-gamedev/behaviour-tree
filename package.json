@@ -4,6 +4,8 @@
   "displayName": "Behaviour Tree",
   "description": "Arboles de comportamientos para Unity3D",
   "unity": "2019.1",
+  "dependencies": {
+	},
   "keywords": [
     "behaviour", 
     "tree"
