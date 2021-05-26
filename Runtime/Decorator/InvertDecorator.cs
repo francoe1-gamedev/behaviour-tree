@@ -33,7 +33,7 @@ namespace BehaviourTree.Decorator
 
         protected override void OnReset()
         {
-            throw new System.NotImplementedException();
+
         }
 
         protected override void OnStop()

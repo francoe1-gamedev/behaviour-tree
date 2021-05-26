@@ -24,24 +24,9 @@ namespace BehaviourTree.Core
         public bool Update(INode from)
         {
             if (_current == null) return true;
-
-            switch (_current.GetState())
-            {
-                case NodeState.Exit:
-                case NodeState.Stop:
-                    _current.Enter(from);
-                    break;
-
-                case NodeState.Enter:
-                case NodeState.Run:
-                    _current.Tick();
-                    break;
-
-                case NodeState.Completed:
-                    Move(GetNextState());
-                    break;
-            }
-
+            if (_current.GetState() == NodeState.Exit || _current.GetState() == NodeState.Stop) _current.Enter(from);
+            if (_current.GetState() == NodeState.Enter || _current.GetState() == NodeState.Run) _current.Tick();
+            if (_current.GetState() == NodeState.Completed) Move(GetNextState());
             return _current == null;
         }
 
