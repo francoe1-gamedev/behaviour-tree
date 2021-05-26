@@ -40,5 +40,21 @@ namespace BehaviourTree
             Add(state);
             return this;
         }
+
+        public BehaviourTreeBuilder AssertTrue(Func<bool> value)
+        {
+            ConditionState state = Node.Create<ConditionState>();
+            state.Value = () => value() ? NodeExcecuteState.Success : NodeExcecuteState.Fail;
+            Add(state);
+            return this;
+        }
+
+        public BehaviourTreeBuilder AssertFalse(Func<bool> value)
+        {
+            ConditionState state = Node.Create<ConditionState>();
+            state.Value = () => !value() ? NodeExcecuteState.Success : NodeExcecuteState.Fail;
+            Add(state);
+            return this;
+        }
     }
 }

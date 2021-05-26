@@ -60,6 +60,8 @@ namespace BehaviourTree.State
 
         protected override NodeExcecuteState OnTick()
         {
+            if (_nodes.Count == 0) return NodeExcecuteState.Success;
+
             int completed = 0;
             foreach (NodeWorker worker in _workers)
             {

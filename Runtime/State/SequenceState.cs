@@ -48,6 +48,9 @@ namespace BehaviourTree.State
 
         protected override NodeExcecuteState OnTick()
         {
+            if (_nodes.Count == 0) return NodeExcecuteState.Success;
+
+
             if (_worker.Update(this))
             {
                 if (_worker.Root.GetExecutionState() != NodeExcecuteState.Success)

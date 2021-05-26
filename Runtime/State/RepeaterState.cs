@@ -21,7 +21,7 @@ namespace BehaviourTree.State
 
         public void Add(INode node)
         {
-            if (_node != null) throw new System.Exception("Repeat accept 1 state");
+            if (_node != null) throw new Exception("Repeat accept 1 state");
             _node = node;
             _worker = new NodeWorker(_node);
         }
