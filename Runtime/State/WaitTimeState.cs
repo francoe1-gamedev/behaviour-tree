@@ -1,26 +1,20 @@
 ﻿using BehaviourTree.Core;
 using BehaviourTree.Interfaces;
 using BehaviourTree.State;
+using System;
 using UnityEngine;
 
 namespace BehaviourTree.State
 {
-    public class WaitTimeState : Node, INodeEditor
+    public class WaitTimeState : Node
     {
-        public float Value { get; set; }
+        public Func<float> Value { get; set; }
 
         private float _time { get; set; }
 
-        private NodeProperty[] _properties { get; } = new NodeProperty[1];
-
-        public WaitTimeState()
-        {
-            _properties[0] = new NodeProperty("Time", () => Value, x => Value = (float)x);
-        }
-
         protected override void OnEnter(INode node)
         {
-            _time = Value;
+            _time = Value();
         }
 
         protected override void OnExit()
@@ -39,8 +33,6 @@ namespace BehaviourTree.State
 
         protected override string GetDescription() => _time.ToString("F2");
 
-        NodeProperty[] INodeEditor.GetProperties() => _properties;
-
         protected override void OnReset()
         {
         }
@@ -51,7 +43,7 @@ namespace BehaviourTree
 {
     public partial class BehaviourTreeBuilder
     {
-        public BehaviourTreeBuilder Wait(float time)
+        public BehaviourTreeBuilder Wait(Func<float> time)
         {
             WaitTimeState state = Node.Create<WaitTimeState>();
             state.Value = time;

@@ -16,12 +16,10 @@ namespace BehaviourTree.State
         ExitFirstComplete,
     }
 
-    public class ParallelState : Node, INodeCollection, INodeLoopeable
+    public class ParallelState : Node, INodeCollection
     {
         private List<INode> _nodes { get; } = new List<INode>();
         private List<NodeWorker> _workers { get; } = new List<NodeWorker>();
-        public LoopMode Loop { get; set; }
-
         public ParallelMode Mode { get; set; }
 
         IEnumerable<INode> INodeCollection.GetNodes() => _nodes;
@@ -83,12 +81,9 @@ namespace BehaviourTree.State
                     }
 
                     completed++;
-                    if (Loop != LoopMode.None) worker.Reset();
                 }
             }
-
-            if (Loop != LoopMode.None) return NodeExcecuteState.Continue;
-            else if (completed < _workers.Count) return NodeExcecuteState.Continue;
+            if (completed < _workers.Count) return NodeExcecuteState.Continue;
             return NodeExcecuteState.Success;
         }
 

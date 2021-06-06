@@ -6,14 +6,11 @@ using UnityEngine;
 
 namespace BehaviourTree.State
 {
-    public class SelectorState : Node, INodeCollection, INodeLoopeable
+    public class SelectorState : Node, INodeCollection
     {
         private List<INode> _nodes { get; } = new List<INode>();
         private int _current { get; set; } = 0;
         private NodeWorker _worker { get; } = new NodeWorker();
-        public LoopMode Loop { get; set; }
-
-        private bool _forward { get; set; } = true;
 
         IEnumerable<INode> INodeCollection.GetNodes() => _nodes;
 
@@ -52,11 +49,7 @@ namespace BehaviourTree.State
 
             if (_worker.Update(this))
             {
-                if (!MoveNext())
-                {
-                    if (Loop == LoopMode.None) return GetExitState();
-                    MoveFirst();
-                }
+                if (!MoveNext()) return GetExitState();
             }
             return NodeExcecuteState.Continue;
         }
@@ -69,30 +62,9 @@ namespace BehaviourTree.State
             return NodeExcecuteState.Fail;
         }
 
-        private bool MoveNext()
-        {
-            bool value = Move(_forward ? _current + 1 : _current - 1);
+        private bool MoveNext() => Move(++_current);
 
-            switch (Loop)
-            {
-                case LoopMode.Default:
-                    if (_nodes.Count - 1 == _current) _current = -1;
-                    break;
-
-                case LoopMode.Pinpong:
-                    if (_forward && _current == _nodes.Count - 1) _forward = false;
-                    if (!_forward && _current == 0) _forward = true;
-                    break;
-            }
-
-            return value;
-        }
-
-        private bool MoveFirst()
-        {
-            _forward = true;
-            return Move(0);
-        }
+        private bool MoveFirst() => Move(0);
 
         private bool Move(int index)
         {
