@@ -1,11 +1,10 @@
 ﻿using BehaviourTree.Core;
 using BehaviourTree.Decorator;
 using BehaviourTree.Interfaces;
-using BehaviourTree.State;
 using System;
 using System.Collections.Generic;
 
-namespace BehaviourTree.State
+namespace BehaviourTree.Decorator
 {
     public enum RepeatMode
     {
@@ -13,7 +12,7 @@ namespace BehaviourTree.State
         Infinite,
         Success,
     }
-    public class RepeaterState : Node, INodeCollection
+    public class RepeaterDecorator : Node, INodeCollection
     {
         private INode _node { get; set; }
         private NodeWorker _worker { get; set; }
@@ -70,16 +69,16 @@ namespace BehaviourTree
     {
         public BehaviourTreeBuilder Repeater()
         {
-            RepeaterState state = Node.Create<RepeaterState>();
+            RepeaterDecorator state = Node.Create<RepeaterDecorator>();
             ForwardStack(state);
             AutoBack();
             return this;
         }
 
-        public BehaviourTreeBuilder Repeater(Action<RepeaterState> callback)
+        public BehaviourTreeBuilder Repeater(Action<RepeaterDecorator> callback)
         {
             Repeater();
-            callback((RepeaterState)_lastNode);
+            callback((RepeaterDecorator)_lastNode);
             return this;
         }
     }
